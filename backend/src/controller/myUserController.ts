@@ -21,9 +21,11 @@ const createCurrentUser = async (req: Request, res: Response) => {
           password: hash,
         });
         await newUser.save();
-        let token = jwt.sign({ email }, "sdafsdffas");
+        const token = jwt.sign({ email, username }, "sdafsdffas");
         res.cookie("token", token);
-        res.status(201).json(newUser);
+        res
+          .status(201)
+          .json({ user: newUser, message: "User created successfully" });
       });
     });
   } catch (error) {

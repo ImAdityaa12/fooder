@@ -1,6 +1,5 @@
 "use client";
 import Link from "next/link";
-import { Button } from "./ui/button";
 import MobileNavbar from "./mobile-navbar";
 import { User } from "lucide-react";
 import {
@@ -10,8 +9,33 @@ import {
   DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
 import { useRouter } from "next/navigation";
+import { getCookie } from "@/lib/getCookie";
+import { getUserDetails } from "@/api/getUserDetails";
+import { useEffect } from "react";
+import { useUserStore } from "@/lib/store/userStore";
 
 const Navbar = () => {
+  const { user, setUser } = useUserStore();
+  const getUserProfile = async () => {
+    try {
+      const cookie = getCookie("token");
+      if (!cookie) {
+      }
+      if (typeof cookie === "string") {
+        console.log(cookie);
+        const response = await getUserDetails(cookie);
+        if (response) {
+          setUser(response.data.user);
+        }
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  useEffect(() => {
+    getUserProfile();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   const router = useRouter();
   const logout = async () => {
     try {
@@ -30,30 +54,21 @@ const Navbar = () => {
     <div className="w-full h-[10vh] bg-muted flex items-center">
       <div className="container mx-auto px-8 py-4 flex justify-between items-center">
         <div className="text-xl text-orange-500 font-semibold">Fooder.com</div>
-        {true ? (
-          <DropdownMenu>
-            <DropdownMenuTrigger className="text-xl text-orange-500 flex items-center gap-2 max-md:hidden">
-              <User className="text-orange-500" />
-              {"Aditya"}
-            </DropdownMenuTrigger>
-            <DropdownMenuContent className="">
-              <DropdownMenuItem>
-                <Link href="/profile" className="w-full">
-                  Profile
-                </Link>
-              </DropdownMenuItem>
-              <DropdownMenuItem onClick={logout}>Log Out</DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
-        ) : (
-          <Button
-            className="bg-orange-500 text-xl font-semibold max-md:hidden"
-            onClick={async () => {}}
-          >
-            Login
-          </Button>
-        )}
 
+        <DropdownMenu>
+          <DropdownMenuTrigger className="text-xl text-orange-500 flex items-center gap-2 max-md:hidden">
+            <User className="text-orange-500" />
+            {user?.username}
+          </DropdownMenuTrigger>
+          <DropdownMenuContent className="">
+            <DropdownMenuItem>
+              <Link href="/profile" className="w-full">
+                Profile({user?.email})
+              </Link>
+            </DropdownMenuItem>
+            <DropdownMenuItem onClick={logout}>Log Out</DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
         <div className="md:hidden max-md:flex">
           <MobileNavbar />
         </div>
