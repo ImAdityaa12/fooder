@@ -10,7 +10,7 @@ const createCurrentUser = async (req: Request, res: Response) => {
     if (existingUser) {
       let token = jwt.sign({ email }, "sdafsdffas");
       res.cookie("token", token);
-      res.status(200).send(existingUser);
+      return res.status(200).send(existingUser);
     }
     bcrypt.genSalt(10, (err, salt) => {
       if (err) res.send(err);
