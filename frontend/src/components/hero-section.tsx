@@ -5,7 +5,7 @@ import { Button } from "./ui/button";
 const HeroSection = () => {
   return (
     <div className="relative w-full h-full flex flex-col items-center justify-center">
-      <div className="relative h-[90vh] w-full max-md:h-[70vh] pointer-events-none">
+      <div className="relative h-[90vh] w-full max-md:h-[70vh] pointer-events-none -z-10">
         <Image
           src={"/hero.png"}
           fill
@@ -13,7 +13,7 @@ const HeroSection = () => {
           alt="hero image"
         />
       </div>
-      <div className="relative bottom-10 w-[70%] h-[12rem] shadow-md shadow-[rgba(0,0,0,0.1)] rounded-xl bg-white flex flex-col items-center justify-center px-7">
+      <div className="relative bottom-10 w-[70%] h-[12rem] shadow-md shadow-[rgba(0,0,0,0.1)] rounded-xl bg-white flex flex-col items-center justify-center px-7 max-md:w-full">
         <h1 className="text-orange-500 text-3xl font-bold">
           Tuck into a takeway today
         </h1>
