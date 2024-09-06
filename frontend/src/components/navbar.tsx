@@ -19,8 +19,7 @@ const Navbar = () => {
   const getUserProfile = async () => {
     try {
       const cookie = getCookie("token");
-      if (!cookie) {
-      }
+      if (!cookie) return;
       if (typeof cookie === "string") {
         console.log(cookie);
         const response = await getUserDetails(cookie);
@@ -39,7 +38,7 @@ const Navbar = () => {
   const router = useRouter();
   const logout = async () => {
     try {
-      const response = await fetch(`http://localhost:7000/logout`);
+      const response = await fetch(`http://localhost:7000/auth/logout`);
       if (response.ok) {
         // clear token cookie
         document.cookie =

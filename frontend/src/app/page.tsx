@@ -9,6 +9,7 @@ import { toast } from "sonner";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { getCookie } from "@/lib/getCookie";
+import { signInUser } from "@/api/signIn";
 
 export default function Home() {
   const router = useRouter();
@@ -34,6 +35,17 @@ export default function Home() {
       console.error("Error during sign up:", error);
     }
   };
+  const signIn = async () => {
+    try {
+      const response = await signInUser(userData.email, userData.password);
+      if (response.status === 200) {
+        toast.success(response.data.message);
+        router.push("/home");
+      }
+    } catch (error) {
+      console.error("Error during sign in:", error);
+    }
+  };
   return (
     <div className="w-full h-full">
       <div className="w-full h-[10vh] bg-muted flex items-center">
@@ -41,50 +53,86 @@ export default function Home() {
           <div className="text-xl text-orange-500 font-semibold">
             Fooder.com
           </div>
-          <Dialog>
-            <DialogTrigger className="text-xl bg-orange-500 px-5 py-2 hover:bg-orange-400 rounded-xl text-white transition-all">
-              Login
-            </DialogTrigger>
-            <DialogContent>
-              <h1 className="text-xl font-bold text-center">Sign Up</h1>
-              <form className="flex flex-col gap-2">
-                <input
-                  type="text"
-                  placeholder="Enter Username"
-                  className="py-2 px-3 rounded-lg border border-orange-400 outline-none"
-                  onChange={(e) => {
-                    setUserData({ ...userData, username: e.target.value });
-                  }}
-                />
-                <input
-                  type="text"
-                  placeholder="Enter Email"
-                  className="py-2 px-3 rounded-lg border border-orange-400 outline-none"
-                  onChange={(e) => {
-                    setUserData({ ...userData, email: e.target.value });
-                  }}
-                />
-                <input
-                  type="text"
-                  placeholder="Enter Password"
-                  className="py-2 px-3 rounded-lg border border-orange-400 outline-none"
-                  onChange={(e) => {
-                    setUserData({ ...userData, password: e.target.value });
-                  }}
-                />
-                <Button
-                  className="bg-orange-500 rounded-xl min-h-8 px-3 py-4 mt-1 w-fit ml-auto transition-all hover:rounded-lg"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    createUser();
-                  }}
-                >
-                  Sign Up
-                </Button>
-              </form>
-            </DialogContent>
-          </Dialog>
-
+          <div className="flex items-center justify-end gap-2">
+            <Dialog>
+              <DialogTrigger className="text-xl border border-orange-500 px-5 py-2 hover:bg-orange-500 rounded-xl text-orange-500 transition-all hover:text-white">
+                Sign In
+              </DialogTrigger>
+              <DialogContent>
+                <h1 className="text-xl font-bold text-center">Sign In</h1>
+                <form className="flex flex-col gap-2">
+                  <input
+                    type="text"
+                    placeholder="Enter Email"
+                    className="py-2 px-3 rounded-lg border border-orange-400 outline-none"
+                    onChange={(e) => {
+                      setUserData({ ...userData, email: e.target.value });
+                    }}
+                  />
+                  <input
+                    type="text"
+                    placeholder="Enter Password"
+                    className="py-2 px-3 rounded-lg border border-orange-400 outline-none"
+                    onChange={(e) => {
+                      setUserData({ ...userData, password: e.target.value });
+                    }}
+                  />
+                  <Button
+                    className="bg-orange-500 rounded-xl min-h-8 px-3 py-4 mt-1 w-fit ml-auto transition-all hover:rounded-lg"
+                    onClick={async (e) => {
+                      e.preventDefault();
+                      await signIn();
+                    }}
+                  >
+                    Sign In
+                  </Button>
+                </form>
+              </DialogContent>
+            </Dialog>
+            <Dialog>
+              <DialogTrigger className="text-xl bg-orange-500 px-5 py-2 hover:bg-transparent hover:text-orange hover:outline hover:outline-orange-500 hover:text-orange-500 rounded-xl text-white transition-all">
+                Sign Up
+              </DialogTrigger>
+              <DialogContent>
+                <h1 className="text-xl font-bold text-center">Sign Up</h1>
+                <form className="flex flex-col gap-2">
+                  <input
+                    type="text"
+                    placeholder="Enter Username"
+                    className="py-2 px-3 rounded-lg border border-orange-400 outline-none"
+                    onChange={(e) => {
+                      setUserData({ ...userData, username: e.target.value });
+                    }}
+                  />
+                  <input
+                    type="text"
+                    placeholder="Enter Email"
+                    className="py-2 px-3 rounded-lg border border-orange-400 outline-none"
+                    onChange={(e) => {
+                      setUserData({ ...userData, email: e.target.value });
+                    }}
+                  />
+                  <input
+                    type="text"
+                    placeholder="Enter Password"
+                    className="py-2 px-3 rounded-lg border border-orange-400 outline-none"
+                    onChange={(e) => {
+                      setUserData({ ...userData, password: e.target.value });
+                    }}
+                  />
+                  <Button
+                    className="bg-orange-500 rounded-xl min-h-8 px-3 py-4 mt-1 w-fit ml-auto transition-all hover:rounded-lg"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      createUser();
+                    }}
+                  >
+                    Sign Up
+                  </Button>
+                </form>
+              </DialogContent>
+            </Dialog>
+          </div>
           <div className="md:hidden max-md:flex">
             <MobileNavbar />
           </div>

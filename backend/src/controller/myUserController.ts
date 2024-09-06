@@ -8,7 +8,7 @@ const createCurrentUser = async (req: Request, res: Response) => {
     const { username, email, password } = req.body;
     const existingUser = await User.findOne({ username });
     if (existingUser) {
-      let token = jwt.sign({ email }, "sdafsdffas");
+      let token = jwt.sign({ email, username }, "sdafsdffas");
       res.cookie("token", token);
       return res.status(200).send(existingUser);
     }
