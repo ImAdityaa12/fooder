@@ -19,6 +19,7 @@ const loginController = async (req: Request, res: Response) => {
     }
   });
 };
+
 const logoutController = async (req: Request, res: Response) => {
   res.cookie("token", "", { maxAge: 1 });
   return res.json("logged out");

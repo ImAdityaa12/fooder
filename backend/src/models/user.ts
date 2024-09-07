@@ -13,6 +13,14 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  addressLine1: {
+    type: String,
+    required: true,
+  },
+  addressLine2: {
+    type: String,
+    required: true,
+  },
 });
 
 const User = mongoose.model("User", userSchema);

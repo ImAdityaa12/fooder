@@ -1,14 +1,15 @@
 type User = {
   username: string;
   email: string;
-  password: string;
+  addressLine1: string;
+  addressLine2: string;
 };
 
-export const handleSignUp = async (user: User) => {
+export const updateUser = async (user: User) => {
   const response = await fetch(
-    `${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}api/my/user`,
+    `${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}api/my/user/update`,
     {
-      method: "POST",
+      method: "PUT",
       headers: {
         "Content-Type": "application/json",
       },
