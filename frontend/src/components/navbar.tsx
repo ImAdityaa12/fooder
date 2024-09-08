@@ -18,7 +18,6 @@ const Navbar = () => {
   const getUserProfile = useCallback(async () => {
     try {
       const cookie = getCookie("token");
-      console.log(cookie);
       if (!cookie) return;
       if (typeof cookie === "string") {
         const response = await getUserDetails(cookie);
