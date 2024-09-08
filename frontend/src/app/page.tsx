@@ -28,7 +28,7 @@ export default function Home() {
     try {
       const response = await handleSignUp(userData);
       if (response.status === 201 || response.status === 200) {
-        toast.success(response.data.message);
+        toast.success("User created successfully");
         router.push("/home");
       }
     } catch (error) {
@@ -39,7 +39,7 @@ export default function Home() {
     try {
       const response = await signInUser(userData.email, userData.password);
       if (response.status === 200) {
-        toast.success(response.data.message);
+        toast.success("Sign in successful");
         router.push("/home");
       }
     } catch (error) {
@@ -145,6 +145,7 @@ export default function Home() {
             fill
             style={{ objectFit: "cover" }}
             alt="hero image"
+            sizes="100vw"
           />
         </div>
         <div className="relative bottom-10 w-[70%] h-[12rem] shadow-md shadow-[rgba(0,0,0,0.1)] rounded-xl bg-white flex flex-col items-center justify-center px-7 max-md:w-full">
@@ -168,6 +169,7 @@ export default function Home() {
               style={{ objectFit: "contain" }}
               alt="hero image"
               className="pointer-events-none"
+              sizes="100vw"
             />
           </div>
           <div className="relative w-[50%] flex flex-col items-center justify-center h-[20rem] gap-4">
@@ -184,6 +186,7 @@ export default function Home() {
                 style={{ objectFit: "contain" }}
                 alt="hero image"
                 className="pointer-events-none"
+                sizes="100vw"
               />
             </div>
           </div>

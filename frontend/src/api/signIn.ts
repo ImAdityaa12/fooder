@@ -1,6 +1,6 @@
 export const signInUser = async (email: string, password: string) => {
   const response = await fetch(
-    `${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}/auth/login`,
+    `${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}auth/login`,
     {
       method: "POST",
       headers: {

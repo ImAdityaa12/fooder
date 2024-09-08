@@ -1,24 +1,24 @@
 "use client";
 import Link from "next/link";
 import MobileNavbar from "./mobile-navbar";
-import { User } from "lucide-react";
+import { ListOrdered, User } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
-import { useRouter } from "next/navigation";
-import { getCookie } from "@/lib/getCookie";
 import { getUserDetails } from "@/api/getUserDetails";
 import { useCallback, useEffect } from "react";
 import { useUserStore } from "@/lib/store/userStore";
+import { getCookie } from "@/lib/utils/getCookie";
 
 const Navbar = () => {
-  const { user, setUser } = useUserStore();
+  const { setUser } = useUserStore();
   const getUserProfile = useCallback(async () => {
     try {
       const cookie = getCookie("token");
+      console.log(cookie);
       if (!cookie) return;
       if (typeof cookie === "string") {
         const response = await getUserDetails(cookie);
@@ -37,7 +37,7 @@ const Navbar = () => {
   const logout = async () => {
     try {
       const response = await fetch(
-        `${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}/auth/logout`
+        `${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}auth/logout`
       );
       if (response.ok) {
         // clear token cookie
@@ -51,27 +51,35 @@ const Navbar = () => {
   };
   return (
     <div className="w-full h-[5rem] bg-muted flex items-center">
-      <div className="container mx-auto px-8 py-4 flex justify-between items-center">
-        <div className="text-xl text-orange-500 font-semibold">Fooder.com</div>
-
-        <DropdownMenu>
-          <DropdownMenuTrigger className="text-xl text-orange-500 flex items-center gap-2 max-md:hidden">
-            <User className="text-orange-500" />
-            {user?.username}
-          </DropdownMenuTrigger>
-          <DropdownMenuContent className="">
-            <DropdownMenuItem>
-              <Link href="/profile" className="w-full">
-                Profile({user?.email})
-              </Link>
-            </DropdownMenuItem>
-            <DropdownMenuItem onClick={logout}>Log Out</DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
-        <div className="md:hidden max-md:flex">
-          <MobileNavbar />
+      {true && (
+        <div className="container mx-auto px-8 py-4 flex justify-between items-center">
+          <div className="text-xl text-orange-500 font-semibold">
+            Fooder.com
+          </div>
+          <div className="flex items-center gap-7">
+            <div className="flex items-center justify-end gap-2 text-orange-500 cursor-pointer">
+              <ListOrdered /> Order Status
+            </div>
+            <DropdownMenu>
+              <DropdownMenuTrigger className="text-xl text-orange-500 flex items-center gap-2 max-md:hidden">
+                <User className="text-orange-500" />
+                {"sdfafads"}
+              </DropdownMenuTrigger>
+              <DropdownMenuContent className="">
+                <DropdownMenuItem>
+                  <Link href="/profile" className="w-full">
+                    Profile({"asdfadfs"})
+                  </Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={logout}>Log Out</DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </div>
+          <div className="md:hidden max-md:flex">
+            <MobileNavbar />
+          </div>
         </div>
-      </div>
+      )}
     </div>
   );
 };
